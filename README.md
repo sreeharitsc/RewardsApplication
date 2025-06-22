@@ -41,6 +41,7 @@ GET /api/v1/rewards/1?startDate=2025-03-01&endDate=2025-05-31
 
 Example Response
 
+```json 
 {
   "customerId": 1,
   "customerName": "Alice",
@@ -58,7 +59,7 @@ Example Response
   },
   "totalRewards": 270
 }
-
+```
 
 ## Added below validation and error handling for the startDate and endDate parameters in the Spring Boot REST API
 
@@ -76,9 +77,11 @@ Example Error Responses
 Invalid Date Format
 GET /api/v1/rewards/1?startDate=2025-03-XX&endDate=2025-05-31
 
+```json 
 {
   "error": "Invalid date format. Use yyyy-MM-dd"
 }
+```
 
 ## We have used SLF4J logging which is default in springboot application for best practise.
 

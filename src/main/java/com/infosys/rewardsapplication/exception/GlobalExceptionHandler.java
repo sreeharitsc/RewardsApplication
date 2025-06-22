@@ -1,9 +1,5 @@
 package com.infosys.rewardsapplication.exception;
 
-import java.time.format.DateTimeParseException;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -16,24 +12,27 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-	@ExceptionHandler(RewardsException.class)
-	public ResponseEntity<?> handleRewardsException(RewardsException ex){
-		Map<String, String> response = new HashMap<>();
-		response.put("error",ex.getMessage());
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public ResponseEntity<?> handleRewardsException(ResourceNotFoundException ex){
+		RewardsException response = new RewardsException("errorMsg", ex.getMessage());
+		return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(InvalidDateFormatException.class)
+	public ResponseEntity<?> handleInvalidDateFormatException(InvalidDateFormatException ex){
+		RewardsException response = new RewardsException("errorMsg", ex.getMessage());
 		return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
 	}
 	
-	@ExceptionHandler(DateTimeParseException.class)
-	public ResponseEntity<?> handleDateParseException(DateTimeParseException ex){
-		Map<String, String> response = new HashMap<>();
-		response.put("error","invalid date format, please use yyyy-MM-dd format");
+	@ExceptionHandler(InvalidDateInputException.class)
+	public ResponseEntity<?> handleDateParseException(InvalidDateInputException ex){
+		RewardsException response = new RewardsException("errorMsg", ex.getMessage());
 		return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
 	}
 	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<?> handleOtherException(Exception ex){
-		Map<String, String> response = new HashMap<>();
-		response.put("error","internal server error");
+		RewardsException response = new RewardsException("errorMsg","internal server error");
 		return new ResponseEntity<>(response,HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }
